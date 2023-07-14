@@ -1,0 +1,68 @@
+
+<div class="task-list-container">
+    <h1>Task List</h1>
+  
+    <div *ngIf="tasks.length === 0" class="no-tasks-message">
+      <p>No tasks found.</p>
+    </div>
+  
+    <div *ngIf="tasks.length > 0">
+      <div class="task-box" *ngFor="let task of tasks">
+        <div class="task-title">{{ task.title }}</div>
+        <div class="task-details">
+          <div class="task-description">{{ task.description }}</div>
+          <div class="task-metadata">
+            <span class="task-metadata-item">Due Date: {{ task.dueDate | date }}</span>
+            <span class="task-metadata-item">Priority: {{ task.priority }}</span>
+            <span class="task-metadata-item">Status: {{ task.status }}</span>
+          </div>
+        </div>
+        <div>
+          <button class="edit-button" (click)="editTask(task)">Edit</button>
+          <button class="remove-button" (click)="removeTask(task)">Remove</button>
+        </div>
+        <div *ngIf="taskToEdit === task">
+          <form (submit)="updateTask(task)">
+            <div>
+              <label>Title:</label>
+              <input type="text" [(ngModel)]="task.title" name="title" required>
+            </div>
+            <div>
+              <label>Description:</label>
+              <textarea [(ngModel)]="task.description" name="description" required></textarea>
+            </div>
+            <div>
+              <label>Due Date:</label>
+              <input type="date" [(ngModel)]="task.dueDate" name="dueDate" required>
+            </div>
+            <div>
+              <label>Priority:</label>
+              <select [(ngModel)]="task.priority" name="priority" required>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+            <div>
+              <label>Status:</label>
+              <select [(ngModel)]="task.status" name="status" required>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="New">New</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit">Update</button>
+              <button type="button" (click)="cancelEdit()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="add-task-section">
+        <button class="add-button" (click)="addTask()">Add Task</button>
+      </div>
+      <div class="sort section ">
+        <button class="sort-button" (click)="sortByPriority()">Sort by Priority</button>
+      </div>
+  </div>
